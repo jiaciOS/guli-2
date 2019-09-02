@@ -4,8 +4,10 @@ import com.atguigu.guli.constant.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "全局异常")
 public class GuliException extends RuntimeException {
 
