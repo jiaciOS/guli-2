@@ -25,9 +25,9 @@ public class TeacherQuery implements Serializable {
 	private String end;
 
 	@ApiModelProperty(value = "当前页码,默认首页")
-	private Long currentPage = 1L;
+	private Long page = 1L;
 
 	@ApiModelProperty(value = "每页显示个数,默认10个")
-	private Long size = 10L;
+	private Long limit = 10L;
 
 }

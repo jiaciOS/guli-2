@@ -69,7 +69,7 @@ public class TeacherController {
             teacherService.page(page, null);
 
         } else {
-            if (teacherQuery.getCurrentPage() < 1 || teacherQuery.getSize() < 1) {
+            if (teacherQuery.getPage() < 1 || teacherQuery.getLimit() < 1) {
                 //throw new GuliException(21003, "参数不正确1");
                 throw new GuliException(ResultCodeEnum.PARAM_ERROR);
             }
@@ -82,7 +82,7 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "新增讲师")
-    @PostMapping("save")
+    @PostMapping()
     public ResultSet save(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
             @RequestBody Teacher teacher){

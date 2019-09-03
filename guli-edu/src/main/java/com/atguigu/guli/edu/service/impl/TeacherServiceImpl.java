@@ -32,8 +32,8 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         Integer level = teacherQuery.getLevel();
         String begin = teacherQuery.getBegin();
         String end = teacherQuery.getEnd();
-        Long current = teacherQuery.getCurrentPage();
-        Long size = teacherQuery.getSize();
+        Long page = teacherQuery.getPage();
+        Long limit = teacherQuery.getLimit();
         if (!StringUtils.isEmpty(name)) {
             queryWrapper.like("name", name);
         }
@@ -50,9 +50,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
             queryWrapper.le("gmt_create", end);
         }
 
-        Page<Teacher> page = new Page<>(current, size);
-        baseMapper.selectPage(page, queryWrapper);
-        return page;
+        Page<Teacher> teacherPage = new Page<>(page, limit);
+        baseMapper.selectPage(teacherPage, queryWrapper);
+        return teacherPage;
     }
 
 }
