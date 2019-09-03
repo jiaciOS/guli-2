@@ -1,11 +1,13 @@
 # guli
 谷粒教育
-<<<<<<< Updated upstream
-=======
 创建时间:2019-08-30
 
-#guli-teacher
+guli-teacher
 port: 8081
 
-#guli-sysuser
+guli-sysuser
 port: 8082
+
+guli-oss
+port: 8083
+
