@@ -1,4 +1,4 @@
-package com.atguigu.guli.edu;
+package com.atguigu.guli.statistics;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -20,7 +20,7 @@ public class CodeGenerator {
     @Test
     public void genCode() {
 
-        String moduleName = "ucenter";
+        String moduleName = "statistics";
 
         // 1、创建代码生成器
         AutoGenerator mpg = new AutoGenerator();

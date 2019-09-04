@@ -1,4 +1,4 @@
-package com.atguigu.guli.edu;
+package com.atguigu.guli.ucenter;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
