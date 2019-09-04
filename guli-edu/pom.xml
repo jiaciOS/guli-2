@@ -33,7 +33,6 @@
             <groupId>com.atguigu</groupId>
             <artifactId>guli-common</artifactId>
         </dependency>
-
         <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>
