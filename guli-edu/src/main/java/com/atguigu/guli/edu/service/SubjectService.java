@@ -16,5 +16,6 @@ import java.util.List;
  */
 public interface SubjectService extends IService<Subject> {
 
+
     List<String> batchImport(MultipartFile file);
 }

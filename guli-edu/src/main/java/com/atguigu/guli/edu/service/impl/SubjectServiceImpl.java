@@ -46,8 +46,6 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             // java中第0行对应第一级/第二级  最后一行 = lastIndex + 1;
             // 要从第二行,也就是index = 开始读
             // 在生成错误信息的时候行数得加+1
-            //System.out.println(sheet.getLastRowNum());
-            //System.out.println(sheet.getRow(0));
             // 如果第一列为空,则无需看第二列,因为不知道属于哪个一级分类;
             errorMsgList = new LinkedList<>();
             for (int i = 1; i < sheet.getLastRowNum(); ++i) {
@@ -55,12 +53,12 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
                 // 判断第一列: 一级分类
                 if (row != null) {
                     HSSFCell cell = row.getCell(0);
-                    if (cell == null || StringUtils.isEmpty(excelImportUtil.getCellValue(cell).trim())) {
+                    String cellValue;
+                    if (cell == null || StringUtils.isEmpty(cellValue = excelImportUtil.getCellValue(cell).trim())) {
                         errorMsgList.add("第" + (i + 1) + "行,第一列没有数据,添加失败");
                     } else {
                         // 添加数据
                         // 查看数据库中是否有相同的数据
-                        String cellValue = excelImportUtil.getCellValue(cell).trim();
                         Subject subject = new Subject();
                         subject.setTitle(cellValue);
                         String parentId;
@@ -75,17 +73,16 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
                         }
                         // 开始插入第二列
                         HSSFCell cell1 = row.getCell(1);
-                        String cellValue1 = excelImportUtil.getCellValue(cell1).trim();
-                        if (cell1 == null || StringUtils.isEmpty(cellValue1)) {
+                        String cellValue1;
+                        if (cell1 == null || StringUtils.isEmpty(cellValue1 = excelImportUtil.getCellValue(cell1).trim())) {
                             errorMsgList.add("第" + (i + 1) + "行,第二列没有数据,添加失败");
                         } else {
                             // 先查看是否有重复
-
                             Subject querySubject1 = this.getByTitle(cellValue1, parentId);
                             if (querySubject1 == null) {
                                 // 添加
                                 Subject subject1 = new Subject();
-                                subject1.setTitle(cellValue);
+                                subject1.setTitle(cellValue1);
                                 subject1.setParentId(parentId);
                                 subject1.setSort(i);
                                 baseMapper.insert(subject1);
