@@ -1,12 +1,12 @@
-package com.atguigu.guli.statistics;
+package com.atguigu.guli;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-
+import org.springframework.cloud.openfeign.EnableFeignClients;
+// @EnableFeignClients会扫描当前包及其子包中标注有@FeignClient注解的接口,必须是接口.
+@EnableFeignClients
 @MapperScan("com.atguigu.guli.statistics.mapper")
-@ComponentScan({"com.atguigu.guli.handler", "com.atguigu.guli.statistics"})
 @SpringBootApplication
 public class GuliStatisticsApplication {
 

@@ -17,4 +17,7 @@ port: 8083
 guli-ucenter
 port: 8084
 
+guli-statistics
+port: 8085
+
 
