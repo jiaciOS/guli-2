@@ -1,6 +1,7 @@
 package com.atguigu.guli.oss.controller;
 
 
+import com.atguigu.guli.oss.config.OssProperties;
 import com.atguigu.guli.oss.service.FileUploadService;
 import com.atguigu.guli.vo.ResultSet;
 import io.swagger.annotations.Api;
@@ -28,10 +29,15 @@ public class FileUpload {
     @ApiOperation("图片上传")
     @PostMapping("upload")
     public ResultSet fileUpload(
+            @ApiParam(name = "host", value = "文件上传所在文件夹")
+            @RequestParam(name = "host", required = false) String fileHost,
             @ApiParam(name = "file", value = "图片", required = true)
             @RequestParam("file") MultipartFile file) {
         // 校验文件信息
         if (file != null) {
+            if (!StringUtils.isEmpty(fileHost)) {
+                OssProperties.fileHost = fileHost;
+            }
             String url = fileUploadService.upload(file);
             if (!StringUtils.isEmpty(url)) {
                 System.err.println("图片上传成功,url: " + url);

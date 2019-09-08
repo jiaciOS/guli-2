@@ -4,9 +4,12 @@ package com.atguigu.guli.statistics.controller;
 import com.atguigu.guli.statistics.service.DailyService;
 import com.atguigu.guli.vo.ResultSet;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -29,6 +32,7 @@ public class DailyController {
         this.dailyService = dailyService;
     }
 
+    @ApiOperation("统计某一天的注册量")
     @GetMapping("{day}")
     public ResultSet createStatisticsByDate(
             @ApiParam(name = "day", value = "创建统计某一天的注册量的对应的日期", required = true)
@@ -37,5 +41,17 @@ public class DailyController {
         return ResultSet.ok();
     }
 
+    @ApiOperation("获取某个时间段的某一项信息的统计值")
+    @GetMapping("show-chart/{begin}/{end}/{type}")
+    public ResultSet showChart(
+            @ApiParam(name = "begin", value = "起始时间,例如: 2019-01-01", required = true)
+            @PathVariable String begin,
+            @ApiParam(name = "end", value = "结束时间,例如: 2019-01-10", required = true)
+            @PathVariable String end,
+            @ApiParam(name = "type", value = "要查找的统计项,例如: register_num, login_num, video_view_num, course_num", required = true)
+            @PathVariable String type){
+        Map<String, Object> map = dailyService.getChartData(begin, end, type);
+        return ResultSet.ok().data(map);
+    }
 }
 

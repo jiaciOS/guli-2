@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -106,6 +108,41 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         }
 
         return errorMsgList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getIdAndTitleList() {
+        return selectIdAndTitleListByParentId("0");
+    }
+
+    @Override
+    public List<Subject> getSubjectListByParentId(String parentId) {
+        QueryWrapper<Subject> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByAsc("sort");
+        queryWrapper.select("id", "title");
+        queryWrapper.eq("parent_id", parentId);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    private List<Map<String, Object>> selectIdAndTitleListByParentId(String parentId) {
+        QueryWrapper<Subject> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id", "title");
+        queryWrapper.eq("parent_id", parentId);
+        List<Subject> subjects = baseMapper.selectList(queryWrapper);
+        List<Map<String, Object>> list = new LinkedList<>();
+        for (Subject subject : subjects) {
+            // 封装进一个map中
+            // 一级分类
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", subject.getId());
+            map.put("title", subject.getTitle());
+            List<Map<String, Object>> maps = selectIdAndTitleListByParentId(subject.getId());
+            if (maps.size() > 0) {
+                map.put("children", selectIdAndTitleListByParentId(subject.getId()));
+            }
+            list.add(map);
+        }
+        return list;
     }
 
     /**

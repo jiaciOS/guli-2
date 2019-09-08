@@ -15,5 +15,5 @@ public class OssProperties {
     private String keyId;
     private String keySecret;
     private String bucketName;
-    private String fileHost;
+    public static String fileHost;
 }

@@ -56,6 +56,8 @@ public class CodeGenerator {
         pc.setEntity("entity");
         pc.setService("service");
         pc.setMapper("mapper");
+        // 这个可以取消mapper.xml文件的生成?
+        // pc.setXml(null);
         mpg.setPackageInfo(pc);
 
         // 5、策略配置

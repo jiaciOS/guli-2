@@ -10,6 +10,11 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 网站统计日数据 服务实现类
@@ -52,5 +57,45 @@ public class DailyServiceImpl extends ServiceImpl<DailyMapper, Daily> implements
         daily.setDateCalculated(day);
 
         baseMapper.insert(daily);
+    }
+
+    @Override
+    public Map<String, Object> getChartData(String begin, String end, String type) {
+        // 根据起始时间和结束时间,以及字段类型,查找这些天对应的数据
+        // 封装成一个map, key1: dateList, key2: dataList
+        QueryWrapper<Daily> queryWrapper = new QueryWrapper<>();
+        // 指定: 只查询这两列
+        queryWrapper.select(type, "date_calculated");
+        queryWrapper.between("date_calculated", begin, end);
+        List<Daily> dailies = baseMapper.selectList(queryWrapper);
+
+        // 封装
+        Map<String, Object> map = new HashMap<>();
+        List<String> dateList = new LinkedList<>();
+        List<Integer> dataList = new LinkedList<>();
+
+
+        for (Daily daily : dailies) {
+            dateList.add(daily.getDateCalculated());
+            switch (type) {
+                case "register_num":
+                    dataList.add(daily.getRegisterNum());
+                    break;
+                case "login_num":
+                    dataList.add(daily.getLoginNum());
+                    break;
+                case "video_view_num":
+                    dataList.add(daily.getVideoViewNum());
+                    break;
+                case "course_num":
+                    dataList.add(daily.getCourseNum());
+                    break;
+                default:
+                    break;
+            }
+        }
+        map.put("dateList", dateList);
+        map.put("dataList", dataList);
+        return map;
     }
 }

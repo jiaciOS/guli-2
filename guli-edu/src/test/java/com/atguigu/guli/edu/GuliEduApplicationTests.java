@@ -13,7 +13,6 @@ public class GuliEduApplicationTests {
     @Test
     public void contextLoads() {
         String str = "m";
-        System.out.println(StringUtils.isEmpty(str));
+        System.err.println(StringUtils.isEmpty(str));
     }
-
 }

@@ -2,6 +2,7 @@ package com.atguigu.guli.edu.controller;
 
 
 import com.atguigu.guli.constant.ResultCodeEnum;
+import com.atguigu.guli.edu.entity.Subject;
 import com.atguigu.guli.edu.service.SubjectService;
 import com.atguigu.guli.exception.GuliException;
 import com.atguigu.guli.vo.ResultSet;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -61,8 +63,17 @@ public class SubjectController {
     @ApiOperation("获取subject分类列表")
     @GetMapping("list")
     public ResultSet getList(){
-        //List<Map<String, Subject>> map = subjectService.getSubjectMap();
-        return ResultSet.ok().data("items", "");
+        List<Map<String, Object>> map = subjectService.getIdAndTitleList();
+        return ResultSet.ok().data("items", map);
+    }
+
+    @ApiOperation("获取某一级分类列表")
+    @GetMapping("list/{parentId}")
+    public ResultSet getSubjectListByParentId(
+            @ApiParam(name = "", value = "", required = true)
+            @PathVariable("parentId") String parentId){
+        List<Subject> list = subjectService.getSubjectListByParentId(parentId);
+        return ResultSet.ok().data("items", list);
     }
 }
 

@@ -22,8 +22,12 @@ import java.util.UUID;
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
 
+    private final OssProperties ossProperties;
+
     @Autowired
-    private OssProperties ossProperties;
+    public FileUploadServiceImpl(OssProperties ossProperties) {
+        this.ossProperties = ossProperties;
+    }
 
     @Override
     public String upload(MultipartFile file) {
@@ -54,7 +58,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             String keyId = ossProperties.getKeyId();
             String keySecret = ossProperties.getKeySecret();
             String bucketName = ossProperties.getBucketName();
-            String fileHost = ossProperties.getFileHost();
+            String fileHost = OssProperties.fileHost;
             String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             String key = fileHost + "/" + LocalDate.now().format(formatter) + "/" + fileName;

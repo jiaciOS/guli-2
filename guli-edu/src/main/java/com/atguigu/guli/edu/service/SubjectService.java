@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -18,4 +19,8 @@ public interface SubjectService extends IService<Subject> {
 
 
     List<String> batchImport(MultipartFile file);
+
+    List<Map<String, Object>> getIdAndTitleList();
+
+    List<Subject> getSubjectListByParentId(String parentId);
 }
