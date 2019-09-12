@@ -28,7 +28,7 @@ public class FileUpload {
 
     @ApiOperation("图片上传")
     @PostMapping("upload")
-    public ResultSet fileUpload(
+    public ResultSet imgUpload(
             @ApiParam(name = "host", value = "文件上传所在文件夹")
             @RequestParam(name = "host", required = false) String fileHost,
             @ApiParam(name = "file", value = "图片", required = true)
@@ -46,4 +46,5 @@ public class FileUpload {
         }
         return ResultSet.error().message("未获取到上传文件数据或是图片上传失败");
     }
+
 }

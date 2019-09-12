@@ -14,5 +14,6 @@ public class GuliEduApplicationTests {
     public void contextLoads() {
         String str = "m";
         System.err.println(StringUtils.isEmpty(str));
+
     }
 }

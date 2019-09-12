@@ -82,7 +82,7 @@ public class CourseController {
     }
 
     @ApiOperation(value = "更新课程")
-    @PutMapping("update-course-info/{id}")
+    @PutMapping("update-course-info")
     public ResultSet updateCourseInfoById(
             @ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
             @RequestBody CourseInfo courseInfo){

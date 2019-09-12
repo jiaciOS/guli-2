@@ -1,5 +1,6 @@
 package com.atguigu.guli.edu.service.impl;
 
+import com.atguigu.guli.client.OssVideoClient;
 import com.atguigu.guli.edu.entity.Chapter;
 import com.atguigu.guli.edu.entity.Course;
 import com.atguigu.guli.edu.entity.CourseDescription;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 服务实现类
@@ -37,14 +40,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     private final VideoMapper videoMapper;
     private final ChapterMapper chapterMapper;
     private final CourseDescriptionService courseDescriptionService;
-
     private final CourseDescriptionMapper courseDescriptionMapper;
+    private final OssVideoClient ossVideoClient;
+
     @Autowired
-    public CourseServiceImpl(CourseDescriptionService courseDescriptionService, CourseDescriptionMapper courseDescriptionMapper, VideoMapper videoMapper, ChapterMapper chapterMapper) {
+    public CourseServiceImpl(CourseDescriptionService courseDescriptionService, CourseDescriptionMapper courseDescriptionMapper, VideoMapper videoMapper, ChapterMapper chapterMapper, OssVideoClient ossVideoClient) {
         this.courseDescriptionService = courseDescriptionService;
         this.courseDescriptionMapper = courseDescriptionMapper;
         this.videoMapper = videoMapper;
         this.chapterMapper = chapterMapper;
+        this.ossVideoClient = ossVideoClient;
     }
 
     @Override
@@ -97,11 +102,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         }
 
         if (!StringUtils.isEmpty(subjectParentId)) {
-            queryWrapper.ge("subject_parent_id", subjectParentId);
+            queryWrapper.eq("subject_parent_id", subjectParentId);
         }
 
         if (!StringUtils.isEmpty(subjectId)) {
-            queryWrapper.ge("subject_id", subjectId);
+            queryWrapper.eq("subject_id", subjectId);
         }
 
         baseMapper.selectPage(pageParam, queryWrapper);
@@ -138,9 +143,15 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Override
     public void removeCourseById(String id) {
+
         //根据id删除所有视频
         QueryWrapper<Video> queryWrapperVideo = new QueryWrapper<>();
         queryWrapperVideo.eq("course_id", id);
+        List<Video> videos = videoMapper.selectList(queryWrapperVideo);
+        for (Video video : videos) {
+            // TODO 删除oss中的视频
+            ossVideoClient.videoRemove(video.getVideoSourceId());
+        }
         videoMapper.delete(queryWrapperVideo);
 
         //根据id删除所有章节

@@ -23,6 +23,9 @@ public class VideoInfoForm {
 	@ApiModelProperty(value = "视频资源")
 	private String videoSourceId;
 
+	@ApiModelProperty(value = "视频文件名称")
+	private String videoOriginalName;
+
 	@ApiModelProperty(value = "显示排序")
 	private Integer sort;
     

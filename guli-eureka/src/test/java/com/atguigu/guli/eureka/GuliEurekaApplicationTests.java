@@ -11,6 +11,10 @@ public class GuliEurekaApplicationTests {
 
     @Test
     public void contextLoads() {
+        String str = "http://%s";
+        String format = String.format(str, "www.baidu.com");
+        System.err.println(format);
+        // http://www.baidu.com
     }
 
 }
