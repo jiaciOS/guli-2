@@ -8,11 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author kevin
  * @since 2019-09-04
  */
+@Slf4j
 @Api("用户注册数据中心")
 @RestController
 @RequestMapping("/ucenter/member")
@@ -40,6 +41,7 @@ public class MemberController {
     public ResultSet registerCount(
             @ApiParam(name = "day", value = "统计日期", required = true)
             @PathVariable("day") String day){
+        log.error("测试日志...");
         QueryWrapper<Member> wrapper = new QueryWrapper<>();
         wrapper.likeRight("gmt_create", day);
         int count = memberService.count(wrapper);
