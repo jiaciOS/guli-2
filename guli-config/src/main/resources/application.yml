@@ -1,7 +1,6 @@
 server:
   port: 8888
 
-
 spring:
   application:
     name: guli-config
@@ -11,5 +10,16 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/kaimeng110091/guli.git
+          uri: https://github.com/kaimeng110091/config-repo.git
+   #       username:
+    #      password:
       label: master
+  rabbitmq:
+    host: 192.168.175.200
+    port: 5673
+    username: guest
+    password: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
